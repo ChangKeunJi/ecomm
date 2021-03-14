@@ -36,6 +36,8 @@ app.post('/signup',async (req,res) => {
     const user = await usersRepo.create({email,password});
 
     // Store the id of that user inside the users cookie
+
+    
     // .session is a Object added by cookieSession
 
     req.session.userId = user.id;
@@ -100,4 +102,5 @@ app.post('/signin',async (req,res) => {
 app.listen(3000, () => {
     console.log('Listening !!');
 })
+
 

@@ -12,7 +12,6 @@ class UsersRepository {
 
         this.filename = filename;
 
-
         //! file이 존재하는지 확인한다. 
         // - accessSync를 사용하는 이유.
         // 1. 딱 한번만 인스턴스를 생성한다. ( 자주사용 x)
@@ -39,6 +38,7 @@ class UsersRepository {
         attrs.id = this.randomId();
 
         const salt = crypto.randomBytes(8).toString('hex');
+        //: Random string
 
         const buffedHash = await scrypt(attrs.password,salt,64);
         //: asynchronous method which returns buff
