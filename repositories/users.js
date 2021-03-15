@@ -6,7 +6,7 @@ const scrypt = util.promisify(crypto.scrypt);
 
 class UsersRepository {
     constructor(filename) {
-    
+     
         //! 만약 매개변수가 없다면 THROW ERROR
         if(!filename) throw new Error ('NO FILE EXISTS');
 
@@ -41,7 +41,7 @@ class UsersRepository {
         //: Random string
 
         const buffedHash = await scrypt(attrs.password,salt,64);
-        //: asynchronous method which returns buff
+        //:returns buff
 
         const records = await this.getAll();
         const record = {
@@ -64,8 +64,7 @@ class UsersRepository {
         const hashedSupplied = await scrypt(supplied,salt,64);
 
         return hashed  === hashedSupplied.toString('hex');
-    }
-
+    }   
     async writeAll(records) {
         // Write the updated 'records' array back to this.filename
         await fs.promises.writeFile(this.filename, JSON.stringify(records,null,2));
