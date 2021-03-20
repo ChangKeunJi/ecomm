@@ -67,10 +67,12 @@ module.exports = {
 
     requireTitle: check('title')
     .trim()
-    .isLength({min:5, max:40}),
+    .isLength({min:5, max:40})
+    .withMessage('Must be between 5 and 40 characters.'),
 
     requirePrice: check('price')
     .trim()
     .toFloat() // convert input value to Number.
     .isFloat({min:1}) // Check if it is a number. Min value is 1.
+    .withMessage('Must be a number greater than 1.')
 }

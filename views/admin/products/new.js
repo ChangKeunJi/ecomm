@@ -4,12 +4,44 @@ const {getError} = require('../../helpers');
 module.exports = ({errors}) => {
     return layout({
         content: `
-            <form method="POST">
-              <input placeholder="Title" name="title" />
-              <input placeholder="Price" name="price" />
+        <div class="columns is-centered">
+        <div class="column is-half">
+          <h1 class="subtitle">Create a Product</h1>
+
+          <form method="POST" enctype="multipart/form-data">
+            <div class="field">
+              <label class="label">Title</label>
+              <input class="input" placeholder="Title" name="title">
+              <p class="help is-danger">${getError(errors, 'title')}</p>
+            </div>
+            
+            <div class="field">
+              <label class="label">Price</label>
+              <input class="input" placeholder="Price" name="price">
+              <p class="help is-danger">${getError(errors, 'price')}</p>
+            </div>
+            
+            <div class="field">
+              <label class="label">Image</label>            
               <input type="file" name="image" />
-              <button>Submit</button>
-            </form>
+            </div>
+            <br />
+            <button class="button is-primary">Create</button>
+          </form>
+        </div>
+      </div>
         `
     })
 }
+
+// METHOD = "GET" : default
+// Attach form values to URL and Send to Server
+
+// METHOD = "POST"
+// Send form values to Server with Rea.body
+
+// enctype = "application/x-www-form-urlencoded" : default
+// Decide how to get it ready to transmit
+
+// enctype="multipart/form-data"
+// Image file can't be safely converted to URL 
