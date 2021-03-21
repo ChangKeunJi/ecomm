@@ -74,7 +74,7 @@ router.post(
     req.session.userId = user.id;
     //: Added by cookie session
 
-    res.send("ACCOUNT CREATED");
+    res.redirect("/admin/products");
   }
 );
 
@@ -95,7 +95,7 @@ router.post(
 
     req.session.userId = user.id;
 
-    res.send("YOU ARE SINGED IN");
+    res.redirect("/admin/products");
   }
 );
 
