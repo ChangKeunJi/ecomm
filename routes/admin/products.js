@@ -44,6 +44,8 @@ router.post(
   }
 );
 
+//! Rendering Products List
+
 router.get("/admin/products", requireAuth, async (req, res) => {
   // if (!req.session.userId) {
   //   return res.redirect("/signin");
@@ -63,7 +65,42 @@ router.get("/admin/products/:id/edit", requireAuth, async (req, res) => {
   res.send(productsEditTemplate({ product }));
 });
 
-router.post("/admin/products/:id/edit", requireAuth, async (req, res) => {});
+router.post(
+  "/admin/products/:id/edit",
+  requireAuth,
+  upload.single("image"),
+  [requireTitle, requirePrice],
+  handleErrors(productsEditTemplate, async (req) => {
+    const product = await productsRepo.getOne(req.params.id);
+    return { product };
+  }),
+  async (req, res) => {
+    const changes = req.body;
+
+    if (req.file) {
+      changes.image = req.file.buffer.toString("base64");
+    }
+
+    // Incase "update" would throw error.
+    try {
+      await productsRepo.update(req.params.id, changes);
+    } catch (err) {
+      return res.send("COULD NOT FIND ITEM!");
+    }
+
+    res.redirect("/admin/products");
+  }
+);
+
+//! Delete Product
+
+router.post("/admin/products/:id/delete", requireAuth, async (req, res) => {
+  const id = req.params.id;
+
+  await productsRepo.delete(id);
+
+  res.redirect("/admin/products");
+});
 
 router.get("/admin/products/new", (req, res) => {
   res.send(productsNewTemplate({}));
